@@ -1,6 +1,3 @@
-#define APP_WISERVER
-#include <WiServer.h> 
-//#include <WiShield.h>
 
 // This is our page serving function that generates web pages
 boolean sendMyPage(char* URL) {
@@ -25,6 +22,24 @@ boolean sendMyPage(char* URL) {
   return true;
 }
 
+void serverLoop() {
+  WiServer.server_task();
+  return;
+}
 
+void initServer(boolean verbose) {
+  if (verbose) {
+    Serial.print(MYNAME);
+    Serial.println(": initializing server.");
+  }
+  // Initialize WiServer and have it use the sendMyPage function to serve pages
+  WiServer.init(sendMyPage);
+  WiServer.enableVerboseMode(verbose); // i'm not sure what this is but i don't think i want it in production
+  if (verbose) {
+    Serial.print(MYNAME);
+    Serial.println(": finished initializing server.");
+  }
+  return;
+}
 
 

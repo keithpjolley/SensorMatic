@@ -20,6 +20,10 @@
 
 DHT dht(DHTPIN, DHTTYPE);
 
+// i shouldn't need this in here.  rewrite so i don't.
+#include <WiServer.h>
+
+
 // Reading temperature or humidity takes about 250 milliseconds!
 // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
 float humidity  = -999;

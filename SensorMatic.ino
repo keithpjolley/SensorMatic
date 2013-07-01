@@ -1,5 +1,4 @@
 
-#include <WiServer.h>
 #define MYNAME "SensorMatic"
 #define VERBOSE (1==1)   // 0 is false, !0 is true
 
@@ -12,39 +11,22 @@ unsigned long lastblink = 0;
 void setup() {
   pinMode(LED, OUTPUT);
   digitalWrite(LED, HIGH);
-
-  if (VERBOSE) {
-    Serial.begin(57600);
-    Serial.print(MYNAME);
-    Serial.println(": initializing server.");
-  }
-
-initNetwork();
-  
-
-  // Initialize WiServer and have it use the sendMyPage function to serve pages
-  WiServer.init(sendMyPage);
-  WiServer.enableVerboseMode(VERBOSE); // i'm not sure what this is but i don't think i want it in production
-
-  if (VERBOSE) {
-    Serial.begin(57600);
-    Serial.print(MYNAME);
-    Serial.println(": server started.");
-  }
+  Serial.begin(57600);
+  initNetwork(VERBOSE);
+  initServer(VERBOSE);
   digitalWrite(LED, LOW);
   return;
 }
 
-
 void loop(){
-  // Run WiServer
-  WiServer.server_task();
+  serverLoop();
   if (millis() - lastblink > blinky) {
     blinkme();
   }
   return;
 }
 
+// this throws an LED blink every once in a while so people know it's still running
 void blinkme() {
   for (int i=0; i<2; i++) {    
     digitalWrite(LED, HIGH);
@@ -55,6 +37,9 @@ void blinkme() {
   lastblink = millis();
   return;
 }
+
+
+
 
 
 
